@@ -12,7 +12,7 @@
     border-radius: 15px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.9);
     width: 400px; 
-    margin: 100px auto;
+    margin: 100px auto; 
   }
 
   .image{
@@ -42,7 +42,10 @@
   .buttons {
     text-align: center;
   }
-
+.dropdownEditor {
+  text-align: center;
+  padding: 2%;
+}
   button {
     padding: 8px 12px;
     margin: 20px;

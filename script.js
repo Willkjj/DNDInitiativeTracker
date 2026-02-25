@@ -7,17 +7,20 @@ let characters = [
         name: 'Snortleblat',
         species: 'Swamp Beast Diplomat',
         health: 100,
+        maxHealth: 100,
         image: "snortleblat.webp",
         initiative: 0,
+        damageTaken: 0
     },
     {
         id: 2,
         name: 'Bortlesnat',
         species: 'Swamp Beast Diplomat',
         health: 100,
+        maxHealth: 100,
         image: "snortleblat.webp",
         initiative : 0,
-
+        damageTaken: 0
     }
 ];
 renderCharacter()
@@ -31,19 +34,18 @@ function renderCharacter() {
             <img class="image" src="${character.image}" alt="${character.name}">
             <div class="name"><p>${character.name}</p></div>
             <div class="stats"><p>Species: ${character.species}</p>
-            <p class="health">Health: ${character.health}</p>
+            <p class="health">Damage Taken: ${character.damageTaken}</p>
             <div class="buttons">
             <input type="number" class="damageInput">
             <button class="atkButton">Attacked</button>
-            <button class="lvlUpButton">Level Up</button>
             </div>
 `
     function attacked(character,damage) { 
-        character.health = character.health - damage 
+        character.damageTaken += damage
+        character.health -= damage
     }
 
     const atkButton = card.querySelector('.atkButton')
-    const lvlUpButton = card.querySelector('.lvlUpButton')
     const healthDisplay = card.querySelector(".health")
 
 
@@ -64,17 +66,19 @@ function renderCharacter() {
         if (isNaN(damage)) return;
 
         attacked(character, damage)
-        if (character.health > 0) {
-            healthDisplay.textContent = `Health: ${character.health}`
-        } else {
-            healthDisplay.textContent = `Health: DEAD`
+        if (character.health <= 0) {
+            healthDisplay.textContent = `DEAD`
             card.classList.add("blurr")
+        } else if (character.health <= character.maxHealth / 2) {
+            healthDisplay.textContent = `Damage Taken: ${character.damageTaken} - BLOODIED`
+        } else {
+            healthDisplay.textContent = `Damage Taken: ${character.damageTaken}`
         }
         
     });
-    characters.sort((a,b) => b.initiative - a.initiative)
-    
 
+    
+    characters.sort((a,b) => b.initiative - a.initiative)
 card.appendChild(createDropdownEditor(character));
 characterSection.appendChild(card);
 
@@ -197,11 +201,6 @@ function createNewCharacter() {
 }
 
 function createNewCharacterForm() {
-    //for each item in the template, create a form label/input for it
-    //make sure to prevent default
-    //then
-    //const newCharacterForm = (form that we just made)
-    //const formData = new formData(newCharacterForm)
     const newCharacterForm = document.createElement('form')
     newCharacterForm.classList.add('newCharacterForm')
 
@@ -210,8 +209,10 @@ function createNewCharacterForm() {
         name: '',
         species: '',
         health: 100,
+        maxHealth: 100,
         image: "shadowedFigure.webp",
-        initiative: 0
+        initiative: 0,
+        damageTaken: 0
     }
 
     newCharacterForm.addEventListener('submit', (e) =>{
@@ -224,8 +225,11 @@ function createNewCharacterForm() {
             name: formData.get("name") || characterTemplate.name,
             species: formData.get("species") || characterTemplate.species,
             health: formData.get("health") === "" ? characterTemplate.health : Number(formData.get("health")),
+            maxHealth: formData.get("health") === "" ? characterTemplate.health : Number(formData.get("health")),
             image: formData.get("image") || characterTemplate.image,
-            initiative: formData.get("initiative") === "" ? characterTemplate.initiative : Number(formData.get("initiative"))
+            initiative: formData.get("initiative") === "" ? characterTemplate.initiative : Number(formData.get("initiative")),
+            damageTaken: formData.get("damageTaken") === "" ? characterTemplate.damageTaken : Number(formData.get("damageTaken"))
+
         }
         characters.push(newCharacter)
         console.log(newCharacter)
@@ -237,6 +241,7 @@ function createNewCharacterForm() {
 
     Object.keys(characterTemplate).forEach(key =>{
         if (key === "id") return;
+        if (key === "damageTaken") return;
         let input = document.createElement("input")
         let label = document.createElement("label")
 
