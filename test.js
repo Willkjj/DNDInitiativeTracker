@@ -1,65 +1,48 @@
-const characterSection = document.querySelector('.charactersSection')
+function createDropdownEditor(character) {
+    const form = document.createElement("form");
+    form.classList.add("dropdownEditor");
 
-let characters = [
-    {
-        name: 'Bortleblat',
-        class: 'Swamp Beast Diplomat',
-        level: 8,
-        health: 100,
-        image: "snortleblat.webp",
-        attacked : function() {
-            return this.health = this.health - 20
-        },
-        levelUp : function() {
-            return this.level ++
-        }
-    },
-    {
-        name: 'Snortleblat',
-        class: 'Swamp Beast Diplomat',
-        level: 8,
-        health: 100,
-        image: "snortleblat.webp",
-        attacked : function() {
-            return this.health = this.health - 20
-        },
-        levelUp : function() {
-            return this.level ++
-        }
-    }
-];
-characters.forEach(character => {
-    const card = document.createElement('div');
-    card.className = 'card';
+    const select = document.createElement("select");
+    const input = document.createElement("input");
 
-    card.innerHTML = `
-        <img class="image" src="${character.image}" alt="${character.name}">
-        <div class="name"><p>${character.name}</p></div>
-        <div class="stats">
-            <p>Class: ${character.class}</p>
-            <p class="health">Health: ${character.health}</p>
-            <p class="level">Level: ${character.level}</p>
-        </div>
-        <div class="buttons">
-            <button class="atkButton">Attacked</button>
-            <button class="lvlUpButton">Level Up</button>
-        </div>
-    `;
+    // Add character keys to dropdown
+    Object.keys(character).forEach(key => {
+        if (key === "id") return; // skip id
 
-    const atkButton = card.querySelector('.atkButton');
-    const lvlUpButton = card.querySelector('.lvlUpButton');
-    const healthDisplay = card.querySelector('.health');
-    const levelDisplay = card.querySelector('.level');
-
-    atkButton.addEventListener("click", () => {
-        character.attacked();
-        healthDisplay.textContent = `Health: ${character.health}`;
+        const option = document.createElement("option");
+        option.value = key;
+        option.textContent = key;
+        select.appendChild(option);
     });
 
-    lvlUpButton.addEventListener("click", () => {
-        character.levelUp();
-        levelDisplay.textContent = `Level: ${character.level}`;
+    // Set initial input value
+    let currentKey = select.value;
+    input.value = character[currentKey];
+    input.type = typeof character[currentKey] === "number"
+        ? "number"
+        : "text";
+
+    // When dropdown changes
+    select.addEventListener("change", () => {
+        currentKey = select.value;
+        input.value = character[currentKey];
+
+        input.type = typeof character[currentKey] === "number"
+            ? "number"
+            : "text";
     });
 
-    characterSection.appendChild(card);
-});
+    // When input changes
+    input.addEventListener("input", (e) => {
+        if (input.type === "number") {
+            character[currentKey] = Number(e.target.value);
+        } else {
+            character[currentKey] = e.target.value;
+        }
+    });
+
+    form.appendChild(select);
+    form.appendChild(input);
+
+    return form;
+}

@@ -3,7 +3,10 @@
     font-family: Palatino Linotype, sans-serif;
     background: #f0f4f8;
   }
-
+  .charactersSection {
+    display: flex;
+    flex-wrap: wrap;
+  }
   .card {
     background: #313131;
     border-radius: 15px;
@@ -54,8 +57,41 @@
 
   button:hover {
     background-color: #58605a;
-  }            
+  }    
+
 .blurr {
     filter: blur(5px) brightness(.25);
     
+}
+.hidden {
+  filter: brightness(0);
+}
+.unhidden {
+  filter:  brightness();
+}
+.InitiativeFormButton {
+  text-align: end;
+  img {
+    height: 45px;
+    width: 45px;
+  }
+  z-index: 1;
+}
+.initiativeForm {
+  z-index: 0;
+  height: 300px;
+  background: #313131;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.9);
+  margin: 0;
+  padding: 0 1%;
+  label {
+    color: green;
+  }
+  input {
+    color: red;
+  }
+}
+.hide {
+  display: none;
 }

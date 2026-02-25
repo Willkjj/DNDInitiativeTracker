@@ -6,8 +6,8 @@
     <title>Character Card</title>
     <!-- Open Graph (Facebook, LinkedIn, etc.) -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Character Card">
-    <meta property="og:description" content="A single character card">
+    <meta property="og:title" content="DND Initiative Tracker">
+    <meta property="og:description" content="A simple tool to keep track of inititative">
     <meta property="og:url" content="https://willkjj.github.io/wdd131/characterCard/index.html">
     <meta property="og:image" content="https://andejuli.github.io/wdd131/character_card/snortleblat.webp">
 
@@ -18,7 +18,7 @@
     <meta name="twitter:image" content="https://andejuli.github.io/wdd131/character_card/snortleblat.webp">
 
     <!-- One favicon (ICO works everywhere) -->
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="./favicon.ico">
 
     <!-- One Apple Touch Icon (iOS home screen) -->
     <link rel="apple-touch-icon" href="https://andejuli.github.io/wdd131/character_card/snortleblat.webp">
@@ -28,5 +28,12 @@
 <body>
     <div class="charactersSection">
     </div>
+    <div class="initiativeForm hide">
+        <button class="setInitiative">Set Initiative</button>   
+        <input type="text" class="newCharacter" placeholder="Name">
+        <button class="rerender">Re-render</button>
+        <div class="subForm"></div>
+    </div>
+    <button class="InitiativeFormButton"><img class="buttonImage"></img></button>
 </body>
 </html>
