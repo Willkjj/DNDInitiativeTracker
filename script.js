@@ -9,7 +9,7 @@ let characters = [
         class: 'Ranger',
         health: 70,
         maxHealth: 70 ,
-        image: "areT.png",
+        image: "genie.png",
         initiative: 0,
         damageTaken: 0
     },
@@ -20,7 +20,7 @@ let characters = [
         class: 'Rogue',
         health: 100,
         maxHealth: 100,
-        image: "shadowedFigure.webp",
+        image: "impid.png",
         initiative : 0,
         damageTaken: 0
     },
@@ -31,7 +31,7 @@ let characters = [
         class: 'Barbarian',
         health: 66,
         maxHealth: 66,
-        image: "shadowedFigure.webp",
+        image: "waster.png",
         initiative : 0,
         damageTaken: 0
     },
@@ -42,7 +42,7 @@ let characters = [
         class: 'Fighter',
         health: 100,
         maxHealth: 100,
-        image: "shadowedFigure.webp",
+        image: "hussar.png",
         initiative : 0,
         damageTaken: 0
     },
