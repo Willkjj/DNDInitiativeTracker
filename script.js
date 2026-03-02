@@ -4,52 +4,107 @@ const initForm = document.querySelector('.initiativeForm')
 let characters = [
     {
         id: 1,
-        name: 'Snortleblat',
-        species: 'Swamp Beast Diplomat',
-        health: 100,
-        maxHealth: 100,
-        image: "snortleblat.webp",
+        name: 'Voss',
+        species: 'Genie',
+        class: 'Ranger',
+        health: 70,
+        maxHealth: 70 ,
+        image: "areT.png",
         initiative: 0,
         damageTaken: 0
     },
     {
         id: 2,
-        name: 'Bortlesnat',
-        species: 'Swamp Beast Diplomat',
+        name: 'Hinterhaltiger',
+        species: 'Impid',
+        class: 'Rogue',
         health: 100,
         maxHealth: 100,
-        image: "snortleblat.webp",
+        image: "shadowedFigure.webp",
         initiative : 0,
         damageTaken: 0
-    }
+    },
+    {
+        id: 3,
+        name: 'Arsenic',
+        species: 'Waster',
+        class: 'Barbarian',
+        health: 66,
+        maxHealth: 66,
+        image: "shadowedFigure.webp",
+        initiative : 0,
+        damageTaken: 0
+    },
+    {
+        id: 4,
+        name: 'Xander',
+        species: 'Hussar',
+        class: 'Fighter',
+        health: 100,
+        maxHealth: 100,
+        image: "shadowedFigure.webp",
+        initiative : 0,
+        damageTaken: 0
+    },
+
+
 ];
+
+function hideCards() {
+    let cardArray = document.querySelectorAll(".card")
+    cardArray.forEach(card =>{
+    card.classList.add("hidden")
+    });
+    
+}
+
+function deleteCard(card,character) {
+    card.remove()
+    characters = characters.filter(c => c.id !== character.id)
+    characters.forEach(c => {
+        c.id = characters.length + 1
+    });
+}
+
+
 renderCharacter()
+hideCards()
+
+
+function attacked(character,damage) { 
+    character.damageTaken += damage
+    character.health -= damage
+}
+
 function renderCharacter() {
     characterSection.innerHTML = `` 
+    characters.sort((a,b) => b.initiative - a.initiative)
     characters.forEach(character => {
     const card = document.createElement('div');
     card.className = 'card';
 
     card.innerHTML = `
             <img class="image" src="${character.image}" alt="${character.name}">
+            <img class="cardDelete" src="plus.svg" alt="delete card button"></img>
             <div class="name"><p>${character.name}</p></div>
             <div class="stats"><p>Species: ${character.species}</p>
+            <p>Class: ${character.class}</p>
             <p class="health">Damage Taken: ${character.damageTaken}</p>
             <div class="buttons">
             <input type="number" class="damageInput">
             <button class="atkButton">Attacked</button>
             </div>
 `
-    function attacked(character,damage) { 
-        character.damageTaken += damage
-        character.health -= damage
-    }
+
 
     const atkButton = card.querySelector('.atkButton')
     const healthDisplay = card.querySelector(".health")
+    const cardDelete = card.querySelector(".cardDelete")
 
+    cardDelete.addEventListener("click", () =>{
+        deleteCard(card, character)
+    });
 
-    card.classList.add("hidden")
     card.addEventListener("click", () =>{
         if (card.classList.contains("hidden")) {
             card.classList.remove("hidden")
@@ -61,7 +116,8 @@ function renderCharacter() {
 
     atkButton.addEventListener("click", () =>{
         damageInput = card.querySelector('.damageInput')
-        const damage = Number(damageInput.value)
+        damage = Number(damageInput.value)
+        damageInput.value = null
 
         if (isNaN(damage)) return;
 
@@ -78,11 +134,11 @@ function renderCharacter() {
     });
 
     
-    characters.sort((a,b) => b.initiative - a.initiative)
 card.appendChild(createDropdownEditor(character));
 characterSection.appendChild(card);
 
-})};
+})
+};
 
 function createDropdownEditor(character) {
     const form = document.createElement('form')
@@ -148,6 +204,7 @@ InitButton.addEventListener("click", ()=>{
 
 rerenderButton.addEventListener("click", () =>{
     renderCharacter()
+    hideCards()
     renderInitiativeForm()
 });
 
@@ -208,6 +265,7 @@ function createNewCharacterForm() {
         id: 0,
         name: '',
         species: '',
+        class: '',
         health: 100,
         maxHealth: 100,
         image: "shadowedFigure.webp",
@@ -224,6 +282,7 @@ function createNewCharacterForm() {
             id: characters.length + 1,
             name: formData.get("name") || characterTemplate.name,
             species: formData.get("species") || characterTemplate.species,
+            class: formData.get("class") || characterTemplate.class,
             health: formData.get("health") === "" ? characterTemplate.health : Number(formData.get("health")),
             maxHealth: formData.get("health") === "" ? characterTemplate.health : Number(formData.get("health")),
             image: formData.get("image") || characterTemplate.image,
@@ -232,9 +291,6 @@ function createNewCharacterForm() {
 
         }
         characters.push(newCharacter)
-        console.log(newCharacter)
-
-        newCharacterForm.reset()
     });
 
 
@@ -244,13 +300,16 @@ function createNewCharacterForm() {
         if (key === "damageTaken") return;
         let input = document.createElement("input")
         let label = document.createElement("label")
+        let optionDiv = document.createElement("div")
+        optionDiv.classList.add("optionDiv")
 
         label.textContent = key
         input.name = key
         input.type = typeof characterTemplate[key] === "number" ? "number" : "text"
 
-        newCharacterForm.appendChild(label)
-        newCharacterForm.appendChild(input)
+        optionDiv.appendChild(label)
+        optionDiv.appendChild(input)
+        newCharacterForm.appendChild(optionDiv)
     });
 
     let submit = document.createElement("button")
