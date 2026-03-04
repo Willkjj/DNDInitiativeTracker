@@ -3,6 +3,15 @@
     font-family: Palatino Linotype, sans-serif;
     background: #f0f4f8;
   }
+  .characterStorage {
+    display: flex;
+  }
+  .characterPopOutStorage {
+    align-self: flex-end;
+    height: 2px;
+    width: 2px;
+    background-color: #313131;
+  }
   .charactersSection {
     display: flex;
     flex-wrap: wrap;
@@ -27,7 +36,7 @@
 
   .image{
     width: 400px;
-    max-height: 200px;
+    max-height: 400px;
     border-radius: 15px 15px 0 0;
     }
 

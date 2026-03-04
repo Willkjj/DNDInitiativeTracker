@@ -49,6 +49,19 @@ let characters = [
 
 
 ];
+let storedCharacters = [
+
+];
+
+initialRender()
+
+function initialRender() {
+    renderCharacter()
+    hideCards()
+    createNewCharacterForm()
+    renderInitiativeForm()
+    createPopOutCharacterStorage()
+};
 
 function hideCards() {
     let cardArray = document.querySelectorAll(".card")
@@ -66,9 +79,6 @@ function deleteCard(card,character) {
     });
 }
 
-
-renderCharacter()
-hideCards()
 
 
 function attacked(character,damage) { 
@@ -137,8 +147,14 @@ function renderCharacter() {
 card.appendChild(createDropdownEditor(character));
 characterSection.appendChild(card);
 
-})
-};
+})};
+
+function createPopOutCharacterStorage() {
+    let html =`
+    <button class="popOutCharacterStorageButton button">
+    <div
+    `
+}
 
 function createDropdownEditor(character) {
     const form = document.createElement('form')
@@ -242,7 +258,6 @@ function renderInitiativeForm () {
         input.value = selectedCharacter.initiative;
     });
 
-    // When input changes → update initiative
     input.addEventListener("input", (e) => {
         selectedCharacter.initiative = Number(e.target.value);
     });
@@ -253,14 +268,7 @@ function renderInitiativeForm () {
 
 }
 
-function createNewCharacter() {
-
-}
-
-function createNewCharacterForm() {
-    const newCharacterForm = document.createElement('form')
-    newCharacterForm.classList.add('newCharacterForm')
-
+function createCharacterTemplate() {
     const characterTemplate = {
         id: 0,
         name: '',
@@ -273,9 +281,11 @@ function createNewCharacterForm() {
         damageTaken: 0
     }
 
-    newCharacterForm.addEventListener('submit', (e) =>{
-        e.preventDefault()
-        
+    return characterTemplate
+}
+
+function createNewCharacter(characterTemplate) {
+        const newCharacterForm = document.querySelector(".newCharacterForm")
         const formData = new FormData(newCharacterForm)
 
         const newCharacter = {
@@ -288,9 +298,21 @@ function createNewCharacterForm() {
             image: formData.get("image") || characterTemplate.image,
             initiative: formData.get("initiative") === "" ? characterTemplate.initiative : Number(formData.get("initiative")),
             damageTaken: formData.get("damageTaken") === "" ? characterTemplate.damageTaken : Number(formData.get("damageTaken"))
-
         }
+
         characters.push(newCharacter)
+}
+
+function createNewCharacterForm() {
+    const newCharacterForm = document.createElement('form')
+    newCharacterForm.classList.add('newCharacterForm')
+    createCharacterTemplate()
+    const characterTemplate = createCharacterTemplate()
+
+    newCharacterForm.addEventListener('submit', (e) =>{
+        e.preventDefault()
+        createNewCharacter(characterTemplate)
+
     });
 
 
@@ -322,6 +344,5 @@ function createNewCharacterForm() {
 };
 
 
-createNewCharacterForm()
-renderInitiativeForm()
+
 
