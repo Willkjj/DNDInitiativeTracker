@@ -60,7 +60,6 @@ function initialRender() {
     hideCards()
     createNewCharacterForm()
     renderInitiativeForm()
-    createPopOutCharacterStorage()
 };
 
 function hideCards() {
@@ -92,6 +91,7 @@ function renderCharacter() {
     characters.forEach(character => {
     const card = document.createElement('div');
     card.className = 'card';
+    card.classList.add("folded")
 
     card.innerHTML = `
             <img class="image" src="${character.image}" alt="${character.name}">
@@ -119,8 +119,7 @@ function renderCharacter() {
         if (card.classList.contains("hidden")) {
             card.classList.remove("hidden")
             card.classList.add("unhidden")
-        } else if (card.classList.contains("unhidden")) {
-            card.classList.remove("unhidden")
+            card.removeEventListener('click')
         }
     });
 
@@ -149,12 +148,6 @@ characterSection.appendChild(card);
 
 })};
 
-function createPopOutCharacterStorage() {
-    let html =`
-    <button class="popOutCharacterStorageButton button">
-    <div
-    `
-}
 
 function createDropdownEditor(character) {
     const form = document.createElement('form')
