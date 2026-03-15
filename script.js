@@ -18,8 +18,8 @@ let characters = [
         name: 'Hinterhaltiger',
         species: 'Impid',
         class: 'Rogue',
-        health: 100,
-        maxHealth: 100,
+        health: 57,
+        maxHealth: 57,
         image: "impid.png",
         initiative : 0,
         damageTaken: 0
@@ -40,8 +40,8 @@ let characters = [
         name: 'Xander',
         species: 'Hussar',
         class: 'Fighter',
-        health: 100,
-        maxHealth: 100,
+        health: 68,
+        maxHealth: 68,
         image: "hussar.png",
         initiative : 0,
         damageTaken: 0
