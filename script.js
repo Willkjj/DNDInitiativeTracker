@@ -7,8 +7,8 @@ let characters = [
         name: 'Voss',
         species: 'Genie',
         class: 'Ranger',
-        health: 70,
-        maxHealth: 70 ,
+        health: 67,
+        maxHealth: 67,
         image: "genie.png",
         initiative: 0,
         damageTaken: 0
@@ -18,8 +18,8 @@ let characters = [
         name: 'Hinterhaltiger',
         species: 'Impid',
         class: 'Rogue',
-        health: 57,
-        maxHealth: 57,
+        health: 63,
+        maxHealth: 63,
         image: "impid.png",
         initiative : 0,
         damageTaken: 0
@@ -29,8 +29,8 @@ let characters = [
         name: 'Arsenic',
         species: 'Waster',
         class: 'Barbarian',
-        health: 66,
-        maxHealth: 66,
+        health: 87,
+        maxHealth: 87,
         image: "waster.png",
         initiative : 0,
         damageTaken: 0
@@ -40,8 +40,8 @@ let characters = [
         name: 'Xander',
         species: 'Hussar',
         class: 'Fighter',
-        health: 68,
-        maxHealth: 68,
+        health: 77,
+        maxHealth: 77,
         image: "hussar.png",
         initiative : 0,
         damageTaken: 0
