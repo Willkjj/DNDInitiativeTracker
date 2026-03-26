@@ -1,0 +1,13 @@
+Music?
+    Js audio manipulation library - https://github.com/goldfire/howler.js?tab=readme-ov-file#examples
+    Youtube metadata API - https://github.com/goldfire/howler.js?tab=readme-ov-file#examples
+
+    Use case is to take a playlist, import the songs and metadata, to let users create a soundscape for their session. Say they want a specific song to play during a certain combat/situation, but want this set of songs to play while traveling. 
+
+    End goal would be to let users put in names of songs or urls of playlists (or url of a singular song) and then drag and drop those songs into user created groups (with one header per group). Users could then move around the headers however they wish. Howler (the audio manipulation library) might also let you create snippets to play at diffent times? Not sure about that one, but cool if so
+
+Dice-Roller
+    Add onto the DM side page
+
+DM side page
+    

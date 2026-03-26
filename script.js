@@ -126,7 +126,6 @@ function renderCharacter() {
     atkButton.addEventListener("click", () =>{
         damageInput = card.querySelector('.damageInput')
         damage = Number(damageInput.value)
-        damageInput.value = null
 
         if (isNaN(damage)) return;
 
