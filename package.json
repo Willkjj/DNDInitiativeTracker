@@ -1,0 +1,29 @@
+{
+  "name": "dndinitiativetracker",
+  "version": "1.0.0",
+  "description": "A simple personal project for DMs to keep track of Initiative and other basic combat features.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "vite",
+    "server": "node --watch server.js",
+    "dev": "npm run server & npm run client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Willkjj/DNDInitiativeTracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Willkjj/DNDInitiativeTracker/issues"
+  },
+  "homepage": "https://github.com/Willkjj/DNDInitiativeTracker#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3",
+    "vite": "^8.0.3"
+  }
+}

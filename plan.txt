@@ -10,4 +10,15 @@ Dice-Roller
     Add onto the DM side page
 
 DM side page
-    
+    Shows whole combat and all characters. Should be easy to change information on the fly without slowing things down
+    (Big flexbox full of cards? List of characters and their stats? Either way, definitely no images on this side of things)
+    Have button to roll their attack, and field to input their damage
+    One big list of characters, one button for each (highlight whichever character is chosen), and a list of buttons below which roll dice/stats (similar to the dice roller project) and an output box on the side to display rolls
+
+Card form page
+    Character creation form (saves the character objects into one file)
+    Should be one form that has all the information from a statblock 
+    LARGE HEADINGS to make it easy to see the most important information
+
+Client side page
+    A slideshow to show the current character whose turn it is
