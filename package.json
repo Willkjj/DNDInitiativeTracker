@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Willkjj/DNDInitiativeTracker#readme",
   "dependencies": {
     "express": "^5.2.1",
+    "fs": "^0.0.1-security",
     "socket.io": "^4.8.3",
     "vite": "^8.0.3"
   }

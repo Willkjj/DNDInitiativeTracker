@@ -8,20 +8,21 @@ socket.on('ping', (msg) =>{
 socket.on('connectMessage', (serverCharacters) => {
     characters = serverCharacters;
     socket.emit('requestTurnOrder')
+    renderCarousel()
     })
-    renderCarousel(characters)
+
 socket.on('updateCharactersList', (serverCharacters) => {
     characters = serverCharacters
-    renderCarousel(characters)
+    renderCarousel()
 })
 socket.on('turnOrder',(turnOrder) => {
-    console.log(turnOrder)
+    renderCarousel()
     renderTurnOrder(turnOrder)
-    renderCarousel(characters)
 })
 
 
 function renderTurnOrder(turnOrder) {
+    if (turnOrder == []) (socket.emit('requestTurnOrder'))
     const previousTurnCard = document.querySelector('.previousTurn')
     const currentTurnCard = document.querySelector('.currentTurn')
     const nextTurnCard = document.querySelector('.nextTurn')
@@ -63,6 +64,7 @@ function hideCard(character,card) {
 }
 function toggleHide(character,card) {
     if (character == undefined) return
+    console.log(character)
     if (character.hidden == true) {
         socket.emit('requestUnhide',character)
     } else {

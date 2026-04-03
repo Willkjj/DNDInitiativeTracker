@@ -69,7 +69,6 @@ let characters = [
 ];
 let turnOrder = []
 let round = 1
-let firstTime = true
 io.on('connection', (socket) => {
     //"Emit"s and "on"s for DM live here?
     socket.emit('connectMessage', characters)
@@ -82,7 +81,7 @@ io.on('connection', (socket) => {
         characters.sort((a, b) => b.initiative - a.initiative)
         let charactersString = JSON.stringify(characters, null, 2)
         io.emit('updateCharactersList', characters)
-        fs.writeFile("./characters.json", charactersString, err => { if (err) { console.log(err); } })
+        // fs.writeFile("./characters.json", charactersString, err => { if (err) { console.log(err); } })
     });
     socket.on('ping', () => {
         socket.emit('ping', 'pong')
@@ -90,10 +89,11 @@ io.on('connection', (socket) => {
     socket.on('createTurnOrder', () => {
         turnOrder = createTurnOrder(characters)
         io.emit('turnOrder', turnOrder)
+        io.emit('updateCharactersList',characters)
     })
     socket.on('requestTurnOrder', () => {
         turnOrder = generateTurnOrder(characters)
-        io.emit('firstTurnOrder', turnOrder)
+        io.emit('TurnOrder', turnOrder)
     })
     socket.on('requestUnhide', (character) => {
         unhide(character)
