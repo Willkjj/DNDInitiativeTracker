@@ -12,11 +12,11 @@ socket.on('updateCharactersList', (serverCharacters) => {
     characters = serverCharacters
     buttonBoxRender(characters)
 })
-socket.on('ping', (msg) =>{
+socket.on('ping', (msg) => {
     console.log(msg)
 })
 function ping() {
-    socket.emit('ping','ping')
+    socket.emit('ping', 'ping')
 }
 const delay = ms => new Promise(res => setTimeout(res, ms));
 const sleep = async (button) => {
@@ -25,10 +25,11 @@ const sleep = async (button) => {
     button.classList.remove('selected')
 };
 function findCharacter(characters) {
-    let  selected = document.querySelector('.selected')
+    let selected = document.querySelector('.selected')
     let selectedCharacter = characters.find(
-        char => char.Name === selected.textContent
+        char => { if (selected.classList.contains(char.id) == true) { return char.id } }
     )
+
     return selectedCharacter
 }
 
@@ -40,6 +41,7 @@ function statBoxRender(characters) {
 
     Object.keys(character).forEach(key => {
         if (key === "id") return
+        if (key === "hidden") return
         let label = document.createElement('label')
         let input = document.createElement('input')
 
@@ -49,13 +51,13 @@ function statBoxRender(characters) {
 
         input.addEventListener('change', () => {
             character[key] = input.value
-            socket.emit('updateCharactersList',characters)
+            socket.emit('updateCharactersList', characters)
         })
-        
+
 
         let container = document.createElement('div')
 
-        
+
         container.appendChild(label)
         container.appendChild(input)
         statBoxForm.appendChild(container)
@@ -67,12 +69,12 @@ function statBoxRender(characters) {
     renderTurnButton(statBoxForm)
     renderDamageButton(statBox)
     statBox.appendChild(statBoxForm)
-   
+
 }
 
 function buttonBoxRender(characters) {
     buttonBox.innerHTML = ''
-    characters.sort((a,b) => {b.initiative - a.initiative})
+    characters.sort((a, b) => { b.initiative - a.initiative })
     characters.forEach(char => {
         let button = document.createElement('button')
         button.textContent = char.Name
@@ -80,6 +82,7 @@ function buttonBoxRender(characters) {
             buttonSelect(button)
         })
         button.classList.add("character")
+        button.classList.add(`${char.id}`)
         buttonBox.appendChild(button)
     });
 

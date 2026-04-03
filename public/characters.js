@@ -15,7 +15,6 @@ socket.on('connectMessage', (serverCharacters) => {
 })
 socket.on('updateCharactersList', (serverCharacters) => {
     characters = serverCharacters
-    statBoxRender(characters)
 })
 
 function statBoxRender(characters) {
@@ -32,6 +31,7 @@ function statBoxRender(characters) {
         label.textContent = key
         input.value = characterTemplate[key]
         input.type = typeof characterTemplate[key] === "number" ? "number" : "text"
+        input.name = key
 
         input.addEventListener('change', () => {
             characterTemplate[key] = input.value
@@ -46,10 +46,21 @@ function statBoxRender(characters) {
         statBoxForm.appendChild(container)
 
     })
-    statBoxForm.addEventListener("submit", function (e) {
+    statBoxForm.addEventListener("submit", (e) => {
         e.preventDefault()
+        createNewCharacter(characterTemplate)
     });
 
+
+
+    renderButton(statBoxForm)
+    statBox.appendChild(statBoxForm)
+   
+}
+
+function createNewCharacter() {
+    const statBoxForm = document.querySelector('form')
+    const characterTemplate = createCharacterTemplate()
     const formData = new FormData(statBoxForm)
     const newCharacter = {
             id: characters.length + 1,
@@ -62,18 +73,18 @@ function statBoxRender(characters) {
             initiative: formData.get("initiative") === "" ? characterTemplate.initiative : Number(formData.get("initiative")),
             damageTaken: formData.get("damageTaken") === "" ? characterTemplate.damageTaken : Number(formData.get("damageTaken"))
         }
+    characters.push(newCharacter)
+    socket.emit('updateCharactersList',characters)
 
-    renderButton(statBoxForm, newCharacter)
-    statBox.appendChild(statBoxForm)
-   
 }
 
-function renderButton(form, newCharacter) {
+function renderButton(form) {
     const button = document.createElement('button')
+    const characterTemplate = createCharacterTemplate()
+    button.setAttribute('type','submit')
     button.textContent = "Submit Character"
     button.addEventListener('click', () => { 
-        characters.push(newCharacter)
-        socket.emit('updateCharactersList',characters)
+        console.log(characters)
     })
     form.appendChild(button)
 }
