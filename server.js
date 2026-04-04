@@ -3,8 +3,6 @@ import http, { METHODS } from 'http';
 import { Server } from 'socket.io';
 import fs from 'node:fs'
 
-
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -70,54 +68,72 @@ let characters = [
 let turnOrder = []
 let round = 1
 io.on('connection', (socket) => {
-    //"Emit"s and "on"s for DM live here?
     socket.emit('connectMessage', characters)
     sendTurnOrder()
-    socket.on('clickMsg', (msg) => {
-        console.log(msg)
-    })
     socket.on('updateCharactersList', (newCharacters) => {
+
         characters = newCharacters
-        characters.sort((a, b) => b.initiative - a.initiative)
+        sortCharactersByInitiative()
         let charactersString = JSON.stringify(characters, null, 2)
         io.emit('updateCharactersList', characters)
+        turnOrder = generateTurnOrder()
+        io.emit('turnOrder',turnOrder)
         // fs.writeFile("./characters.json", charactersString, err => { if (err) { console.log(err); } })
     });
-    socket.on('ping', () => {
-        socket.emit('ping', 'pong')
-    })
     socket.on('createTurnOrder', () => {
-        turnOrder = createTurnOrder(characters)
+        turnOrder = createTurnOrder()
         io.emit('turnOrder', turnOrder)
-        io.emit('updateCharactersList',characters)
+        io.emit('updateCharactersList', characters)
     })
     socket.on('requestTurnOrder', () => {
-        turnOrder = generateTurnOrder(characters)
+        turnOrder = generateTurnOrder()
         io.emit('TurnOrder', turnOrder)
     })
     socket.on('requestUnhide', (character) => {
         unhide(character)
-        turnOrder = generateTurnOrder(characters)
+        turnOrder = generateTurnOrder()
         io.emit('firstTurnOrder', turnOrder)
     })
 
 })
+function sortCharactersByInitiative() {
+    characters.sort((a, b) => b.initiative - a.initiative)
+}
+
+// function newTurnOrder() {
+    //Sends the shifted, hidden turn to combat.js
+    //createTurnOrder(characters)
+    //turnOrder = generateTurnOrder(characters)
+    //io.emit('newTurnOrder',turnOrder)
+//}
+// function sendTurnOrder() {
+    // Sends an unshifted,unhidden turn to combat.js. Is used to update the turn order without moving onto the next turn
+    //turnOrder = generateTurnOrder(characters)
+    //io.emit('turnOrder',turnOrder)
+//}
+// function
 function sendTurnOrder() {
-    hideAllCharacters(characters) //This runs EVERY TIME and will ALWAYS hide characters. fix.
-    turnOrder = generateTurnOrder(characters)
+    hideAllCharacters(characters)
+    turnOrder = generateTurnOrder()
     io.emit('turnOrder', turnOrder)
 }
 
-function createTurnOrder(characters) {
+function createTurnOrder() {
+        //rename to shiftCharacters
+        // Generates turn order and shifts each character down by one
     round++
+    console.log(characters)
     let characterShift = characters.shift()
     characters.push(characterShift)
+    console.log(characters)
     turnOrder = generateTurnOrder(characters)
+    console.log(turnOrder)
     return turnOrder
 }
-function generateTurnOrder(characters) {
-    characters.sort((a, b) => b.initiative - a.initiative)
+function generateTurnOrder() {
+    //Generates the turn order without changing characters
     let previous = undefined
+    console.log(round)
     if (round != 1) (previous = characters[(characters.length - 1)])
     let current = characters[0]
     let next = characters[1]
@@ -136,17 +152,29 @@ function unhide(character) {
     characters[unhiddenCharacterIndex]["hidden"] = false
 
 }
-function readFromFile() {
-    let data = fs.readFileSync("./characters.json", 'utf8', (err, data) => {
-        if (err) {
-            console.log(err)
-            return;
-        }
-        return data
-    })
-    return data
-}
+// function readFromFile() {
+//     let data = fs.readFileSync("./characters.json", 'utf8', (err, data) => {
+//         if (err) {
+//             console.log(err)function readFromFile() {
+//     let data = fs.readFileSync("./characters.json", 'utf8', (err, data) => {
+//         if (err) {
+//             console.log(err)
+//             return;
+//         }
+//         return data
+//     })
+//     return data
+// }
 
-let data = readFromFile()
-JSON.stringify(data)
+// let data = readFromFile()
+// JSON.stringify(data)
+//             return;
+//         }
+//         return data
+//     })
+//     return data
+// }
+
+// let data = readFromFile()
+// JSON.stringify(data)
 // console.log(data)

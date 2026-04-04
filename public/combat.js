@@ -16,6 +16,7 @@ socket.on('updateCharactersList', (serverCharacters) => {
     renderCarousel()
 })
 socket.on('turnOrder',(turnOrder) => {
+    console.log((turnOrder))
     renderCarousel()
     renderTurnOrder(turnOrder)
 })
@@ -64,7 +65,6 @@ function hideCard(character,card) {
 }
 function toggleHide(character,card) {
     if (character == undefined) return
-    console.log(character)
     if (character.hidden == true) {
         socket.emit('requestUnhide',character)
     } else {

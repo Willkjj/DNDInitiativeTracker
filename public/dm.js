@@ -6,20 +6,14 @@ let characters = []
 socket.on('connectMessage', (serverCharacters) => {
     characters = serverCharacters;
     buttonBoxRender(characters)
-
 })
 socket.on('updateCharactersList', (serverCharacters) => {
     characters = serverCharacters
     buttonBoxRender(characters)
 })
-socket.on('ping', (msg) => {
-    console.log(msg)
-})
-function ping() {
-    socket.emit('ping', 'ping')
-}
-const delay = ms => new Promise(res => setTimeout(res, ms));
+
 const sleep = async (button) => {
+    const delay = ms => new Promise(res => setTimeout(res, ms));
     button.classList.add('selected')
     await delay(250);
     button.classList.remove('selected')
@@ -29,17 +23,11 @@ function findCharacter(characters) {
     let selectedCharacter = characters.find(
         char => { if (selected.classList.contains(char.id) == true) { return char.id } }
     )
-
     return selectedCharacter
 }
 
-function statBoxRender(characters) {
-    const statBox = document.querySelector('.statsBox')
-    const statBoxForm = document.createElement('form')
-    let character = findCharacter(characters)
-    statBox.innerHTML = ''
-
-    Object.keys(character).forEach(key => {
+function generateCharacterKeys(character, statBoxForm) {
+        Object.keys(character).forEach(key => {
         if (key === "id") return
         if (key === "hidden") return
         let label = document.createElement('label')
@@ -50,7 +38,12 @@ function statBoxRender(characters) {
         input.type = typeof character[key] === "number" ? "number" : "text"
 
         input.addEventListener('change', () => {
-            character[key] = input.value
+            if (typeof character[key] === "number") (
+                character[key] = Number(input.value)
+            ); else (
+                character[key] = input.value
+            )
+
             socket.emit('updateCharactersList', characters)
         })
 
@@ -63,10 +56,19 @@ function statBoxRender(characters) {
         statBoxForm.appendChild(container)
 
     })
+}
+
+function statBoxRender(characters) {
+    const statBox = document.querySelector('.statsBox')
+    const statBoxForm = document.createElement('form')
+    let character = findCharacter(characters)
+    statBox.innerHTML = ''
+
+    generateCharacterKeys(character,statBoxForm)
     statBoxForm.addEventListener("submit", function (e) {
         e.preventDefault()
     });
-    renderTurnButton(statBoxForm)
+    renderTurnButton(statBox)
     renderDamageButton(statBox)
     statBox.appendChild(statBoxForm)
 
@@ -74,7 +76,7 @@ function statBoxRender(characters) {
 
 function buttonBoxRender(characters) {
     buttonBox.innerHTML = ''
-    characters.sort((a, b) => { b.initiative - a.initiative })
+    characters.sort((a, b) =>  b.initiative - a.initiative )
     characters.forEach(char => {
         let button = document.createElement('button')
         button.textContent = char.Name
@@ -103,8 +105,7 @@ function renderTurnButton(form) {
     const button = document.createElement('button')
     button.addEventListener('click', () => {
         socket.emit('createTurnOrder')
-        sleep(button)
-
+        // sleep(button)
     })
     button.textContent = 'Next turn'
     form.appendChild(button)
