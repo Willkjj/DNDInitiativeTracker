@@ -37,7 +37,6 @@ function statBoxRender(characters) {
             characterTemplate[key] = input.value
         })
         
-
         let container = document.createElement('div')
 
         
@@ -50,7 +49,6 @@ function statBoxRender(characters) {
         e.preventDefault()
         createNewCharacter(characterTemplate)
     });
-
 
 
     renderButton(statBoxForm)

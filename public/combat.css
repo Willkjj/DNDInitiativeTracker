@@ -60,12 +60,13 @@
     bottom: 1%;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: flex-end;
     color: var(--primary-font);
     img {
-        height: 150px;
-        width: 150px;
+        height: 7vw;
+        width: 7vw;
         margin: 0 10%;
     }
 }
