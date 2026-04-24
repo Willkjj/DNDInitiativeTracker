@@ -59,13 +59,23 @@ nav {
     background-color: var(--secondary-color);
 }
 .statsBox {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: center;
     color: var(--primary-font);
-    form {
+
+    .checkBox {
+        width: 200px;
+        height: fit-content;
+    }
+
+    .statBoxForm {
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
-        width: 100%;
-        height: 100%;
+        width: 42vw;
+        height: 75%;
         background-color: var(--secondary-color);
     }
     div {

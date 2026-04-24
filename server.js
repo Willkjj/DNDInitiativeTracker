@@ -1,7 +1,7 @@
 import express from 'express';
 import http, { METHODS } from 'http';
 import { Server } from 'socket.io';
-import fs from 'node:fs'
+import fs, { write } from 'node:fs'
 import { SocketAddress } from 'node:net';
 import { fileURLToPath } from 'node:url';
 
@@ -144,6 +144,7 @@ function deleteCharacter(character) {
     )
     characters.splice(deletedCharacterIndex, 1)
     io.emit('updateCharactersList', characters)
+    writeToFile()
 }
 
 function writeToFile() {
@@ -163,6 +164,3 @@ function readFromFile() {
 
 };
 
-let data = readFromFile()
-// JSON.parse(data)
-console.log("data:",data)

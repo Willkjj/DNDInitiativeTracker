@@ -43,6 +43,7 @@ socket.on('connectMessage', (serverCharacters) => {
 socket.on('updateCharactersList', (serverCharacters) => {
     characters = serverCharacters
     buttonBoxRender(characters)
+    rollerBoxRender(characters)
 })
 
 socket.on('updateDamagedCharacters', (serverCharacters) => {
@@ -325,6 +326,7 @@ function renderDeleteCharacterButton(statBox) {
     button.addEventListener('click', () => {
         socket.emit('deleteCharacter', character)
         sleep(button)
+
     })
 
     button.textContent = 'Delete Character'
